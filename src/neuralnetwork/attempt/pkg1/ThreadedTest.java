@@ -17,18 +17,23 @@ public class ThreadedTest extends Thread{
     private NeuralNetwork n;
     private TraingingData td;
     private ArrayList<Double> res;
+    private double cost;
 
     public ThreadedTest(int num, NeuralNetwork n, TraingingData td) {
         this.num = num;
         this.n = n;
         this.td = td; 
         res=new ArrayList<>();
+        cost=0;
+    }
+    
+    public double getCost(){
+        return cost;
     }
     
     
     
     public void run(){
-        System.out.println("Thread lives "+num);
         n.setInput(td.getInputValues());
         n.start();
         
@@ -39,7 +44,15 @@ public class ThreadedTest extends Thread{
 //        }
         
         makeImprovements(n, td.getExpected(), res, 3);
-        
+        this.cost=calculateCost(answers, td.getExpected());
+    }
+    
+     public double calculateCost(Neuron[] answers, double[] expected) {
+        double cost = 0;
+        for (int i = 0; i < answers.length; i++) {
+            cost += Math.pow((answers[i].getValue() - expected[i]), 2);
+        }
+        return cost;
     }
     
     public double calculateWeightImprovement(double prevLayerVal,double preSigLayerVal,double actualNeuronVal,double expectedNeuronVal){

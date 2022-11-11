@@ -5,6 +5,7 @@
  */
 package neuralnetwork.attempt.pkg1;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -16,17 +17,18 @@ public class NeuralNetworkAttempt1 {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
-        NeuralNetwork n = new NeuralNetwork(11, 2, 16, 28 * 28);
+        NeuralNetwork n = new NeuralNetwork(10, 2, 16, 28 * 28);
 
         Trainer t = new Trainer();
-        for (int j = 0; j < 1000; j++) {
-            for (int i = 0; i < 200; i++) {
-                t.runBatch(n, 0, 400);
-
+        for (int j = 0; j < 30; j++) {
+            for (int i = 0; i < 600; i++) {
+                double ans = (t.runBatch(n, i * 100, 100));
+                if (i % 25 == 0) {
+                    System.out.println(ans);
+                }
             }
-            System.out.println(t.runBatch(n, 0, 2));
             t.simpleTest(n, 0);
         }
 

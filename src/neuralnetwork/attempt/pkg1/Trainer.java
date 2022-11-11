@@ -7,6 +7,7 @@ package neuralnetwork.attempt.pkg1;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.logging.Level;
@@ -18,10 +19,13 @@ import java.util.logging.Logger;
  */
 public class Trainer {
 
-    private ArrayList<TraingingData> data = new ArrayList<>();
-
+    private  MnistMatrix[] mnistMatrix;
     public Trainer() {
-        createTrainingData();
+        try {
+            createTrainingData();
+        } catch (IOException ex) {
+            Logger.getLogger(Trainer.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     public double runBatch(NeuralNetwork n,int start,int number){
@@ -62,7 +66,7 @@ public class Trainer {
         }
     }
     public void simpleTest(NeuralNetwork n,int dataNumber){
-        n.setInput(data.get(dataNumber).getInputValues());
+        n.setInput(createTrainingDataFromMnistMatrix(mnistMatrix[dataNumber]).getInputValues());
         n.start();
         
         Neuron[] answers = n.getResults();
@@ -73,7 +77,7 @@ public class Trainer {
     }
 
     public double doTest(NeuralNetwork n,int dataNumber,ArrayList<Double>[] improvementMatrix,int num) {
-        n.setInput(data.get(dataNumber).getInputValues());
+        n.setInput(createTrainingDataFromMnistMatrix(mnistMatrix[dataNumber]).getInputValues());
         n.start();
         
         Neuron[] answers = n.getResults();
@@ -82,16 +86,16 @@ public class Trainer {
 //            System.out.println(i + ": [" + answers[i].getValue() + "]");
 //        }
         ArrayList<Double> imp=new ArrayList<>();
-        makeImprovements(n, data.get(dataNumber).getExpected(), imp, 3);
+        makeImprovements(n, createTrainingDataFromMnistMatrix(mnistMatrix[dataNumber]).getExpected(), imp, 3);
         improvementMatrix[num]=(imp);
-       return (calculateCost(answers, data.get(dataNumber).getExpected()));
+       return (calculateCost(answers, createTrainingDataFromMnistMatrix(mnistMatrix[dataNumber]).getExpected()));
     }
     
     public double testBatch(NeuralNetwork n,int start,int number,ArrayList<Double>[] improvementMatrix){
         double avgCost=0;
         ThreadedTest[] allThreads=new ThreadedTest[number];
         for (int i = 0; i < number; i++) {
-            allThreads[i]=new ThreadedTest(i, n, data.get(start+i));
+            allThreads[i]=new ThreadedTest(i, n,createTrainingDataFromMnistMatrix(mnistMatrix[start+i]));
         }
         for (int i = 0; i < number; i++) {
             allThreads[i].start();
@@ -108,6 +112,7 @@ public class Trainer {
         
         for (int i = 0; i < number; i++) {
             improvementMatrix[allThreads[i].getNum()] =allThreads[i].getRes();
+            avgCost+=allThreads[i].getCost();
         }
         
         
@@ -169,16 +174,29 @@ public class Trainer {
         return cost;
     }
 
-    public void createTrainingData() {
-        try {
-            Scanner file = new Scanner(new FileReader("trainingData.txt"));
-            while (file.hasNext()) {
-                String[] details = file.nextLine().split(":");
-                data.add(new TraingingData(details[0], details[1].charAt(0)));
+    public void createTrainingData() throws IOException {
+        mnistMatrix = new MnistDataReader().readData("train-images.idx3-ubyte", "train-labels.idx1-ubyte");
+    }
+    
+     private static void printMnistMatrix(final MnistMatrix matrix) {
+        System.out.println("label: " + matrix.getLabel());
+        for (int r = 0; r < matrix.getNumberOfRows(); r++ ) {
+            for (int c = 0; c < matrix.getNumberOfColumns(); c++) {
+                System.out.print(matrix.getValue(r, c) + "");
             }
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(Trainer.class.getName()).log(Level.SEVERE, null, ex);
+            //System.out.println();
         }
+    }
+     
+    public TraingingData createTrainingDataFromMnistMatrix(MnistMatrix m){
+        double[] input= new double[m.getNumberOfRows()*m.getNumberOfColumns()];
+        for (int r = 0; r < m.getNumberOfRows(); r++ ) {
+            for (int c = 0; c < m.getNumberOfColumns(); c++) {
+                input[r*m.getNumberOfColumns()+c]=(m.getValue(r, c));
+            }
+        }
+        
+        return new TraingingData(input, (m.getLabel()+"").charAt(0));
     }
 
 }

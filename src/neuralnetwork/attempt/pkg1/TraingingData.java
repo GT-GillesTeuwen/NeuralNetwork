@@ -17,6 +17,13 @@ public class TraingingData {
         convertStringtoArray(input);
         this.answer = answer;
     }
+
+    public TraingingData(double[] inputValues, char answer) {
+        this.inputValues = inputValues;
+        this.answer = answer;
+    }
+    
+    
     
     private void convertStringtoArray(String input){
         double[] vals=new double[input.length()];
