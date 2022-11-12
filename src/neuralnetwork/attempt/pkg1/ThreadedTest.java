@@ -88,14 +88,14 @@ public class ThreadedTest extends Thread{
         }
         for (int i = 0; i < prev.numNeurons; i++) {
             for (int j = 0; j < cur.numNeurons; j++) {
-                improvements.add(calculateWeightImprovement(prev.getNeurons()[i].getWeightAt(j), cur.getNeurons()[j].getZVal(), (cur.getNeurons()[j].getValue()), expectedValues[j]));
+                improvements.add(calculateWeightImprovement(prev.getNeurons()[i].getValue(), cur.getNeurons()[j].getZVal(), (cur.getNeurons()[j].getValue()), expectedValues[j]));
                 
             }
         }
         
         double[]expectedValues2=new double[prev.numNeurons];
         for (int i = 0; i < expectedValues2.length; i++) {
-            expectedValues2[i]=calculatePrevNeuronImprovement(cur,prev,i,expectedValues);
+            expectedValues2[i]=prev.getNeurons()[i].getValue()-calculatePrevNeuronImprovement(cur,prev,i,expectedValues);
         }
         
         

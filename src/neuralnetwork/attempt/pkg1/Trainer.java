@@ -8,10 +8,15 @@ package neuralnetwork.attempt.pkg1;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 /**
  *
@@ -197,6 +202,60 @@ public class Trainer {
         }
         
         return new TraingingData(input, (m.getLabel()+"").charAt(0));
+    }
+
+    public void shuffleData(){
+        List<MnistMatrix> l=Arrays.asList(this.mnistMatrix);
+        Collections.shuffle(l);
+
+		l.toArray(this.mnistMatrix);
+    }
+
+    public double checkAccuracy(NeuralNetwork n) throws IOException{
+        MnistMatrix[] mat = new MnistDataReader().readData("t10k-images.idx3-ubyte", "t10k-labels.idx1-ubyte");
+        double correct=0;
+        for (int i = 0; i < mat.length; i++) {
+            TraingingData d=createTrainingDataFromMnistMatrix(mnistMatrix[i]);
+            n.setInput(d.getInputValues());
+            n.start();
+            
+            Neuron[] answers = n.getResults();
+            if (isCorrect(answers, d.getExpected())) {
+                correct+=1;
+            }
+        }
+        return correct/mat.length;
+
+    }
+
+    public boolean isCorrect(Neuron[] answer,double[] expected){
+        return getLargestIndex(answer)==getLargestIndex(expected);
+    }
+
+    public int getLargestIndex(Neuron[] n){
+        int ret=0;
+        double max=-1;
+        for (int i = 0; i < n.length; i++) {
+            if(n[i].getValue()>max){
+                max=n[i].getValue();
+                ret=i;
+            }
+            
+        }
+        return ret;
+    }
+
+    public int getLargestIndex(double[] d){
+        int ret=0;
+        double max=-1;
+        for (int i = 0; i < d.length; i++) {
+            if(d[i]>max){
+                max=d[i];
+                ret=i;
+            }
+            
+        }
+        return ret;
     }
 
 }

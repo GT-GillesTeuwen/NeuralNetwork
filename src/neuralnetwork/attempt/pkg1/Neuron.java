@@ -26,17 +26,17 @@ public class Neuron {
         value=0.0;
         
         for (int i = 0; i < weights.length; i++) {
-            weights[i]=0;
+            weights[i]=0.1;
         }
         
-        bias=0;
+        bias=0.1;
     }
     
     public void randomInit(){
         value=0.0;
         
         for (int i = 0; i < weights.length; i++) {
-            weights[i]=(Math.random()*(4))-2;
+            weights[i]=(Math.random()*(2))+0.1;
         }
         
         bias=(Math.random()*(4))-2;
@@ -87,6 +87,6 @@ public class Neuron {
     }
     
     public double getForwardValue(int i){
-        return (this.value*weights[i]);
+        return (this.value*weights[i]+bias);
     }
 }
