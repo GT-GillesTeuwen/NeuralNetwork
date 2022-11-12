@@ -87,6 +87,6 @@ public class Neuron {
     }
     
     public double getForwardValue(int i){
-        return (this.value*weights[i]+bias);
+        return (this.value*weights[i]);
     }
 }
