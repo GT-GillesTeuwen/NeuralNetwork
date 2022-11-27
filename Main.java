@@ -11,7 +11,7 @@ class Main {
 
     public static void main(String[] args) throws IOException {
 
-        int batchSize = 30;
+        int batchSize = 3;
 
         JFrame avgErrorFrame = new JFrame();
         // set size, layout and location for frame.
@@ -37,7 +37,7 @@ class Main {
 
         int[] numNodesInLayers = { 784, 16, 16, 10 };
 
-        NeuralNetwork nn = new NeuralNetwork(numNodesInLayers, 1, "sigmoid");
+        NeuralNetwork nn = new NeuralNetwork(numNodesInLayers, 1.2, "sigmoid");
         // nn.loadValues("NNValues_DigitID_0.8049_0.3.txt");
         double avgErr = 1;
         int counter = 0;
