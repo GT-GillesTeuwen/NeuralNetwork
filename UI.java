@@ -42,7 +42,7 @@ public class UI extends javax.swing.JFrame implements MouseMotionListener, Mouse
 
         int[] numNodesInLayers = { 784, 16, 16, 10 };
         nn = new NeuralNetwork(numNodesInLayers, 0, "sigmoid");
-        nn.loadValues("values\\NNValues_DigitID_0.9202_0.3_sigmoid_batchSize30.txt");
+        nn.loadValues("values\\NNValues_DigitID_0.9526_1.0_sigmoid_batchSize30.txt");
         MouseListener ml2 = new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent me) {

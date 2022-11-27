@@ -37,7 +37,7 @@ class Main {
 
         int[] numNodesInLayers = { 784, 16, 16, 10 };
 
-        NeuralNetwork nn = new NeuralNetwork(numNodesInLayers, 0.3, "sigmoid");
+        NeuralNetwork nn = new NeuralNetwork(numNodesInLayers, 1, "sigmoid");
         // nn.loadValues("NNValues_DigitID_0.8049_0.3.txt");
         double avgErr = 1;
         int counter = 0;
