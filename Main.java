@@ -59,12 +59,12 @@ class Main {
             for (int j = 0; j < mnistMatrix.length / batchSize; j++) {
 
                 for (int i = 0; i < batchSize; i++) {
-                    nv.repaint();
+                    // nv.repaint();
                     TraingingData currentTraingingData = createTrainingDataFromMnistMatrix(
                             mnistMatrix[j * batchSize + i]);
                     nn.setInput(currentTraingingData);
                     nn.forward();
-                    nv.repaint();
+                    // nv.repaint();
                     double[] output = nn.getOutput();
                     // for (int i = 0; i < output.length; i++) {
                     // System.out.println(i + " [" + output[i] + "]");
@@ -80,7 +80,6 @@ class Main {
                     errI[i] = sum;
                     nn.backward(err);
                 }
-                nv.repaint();
                 nn.adjust();
                 nv.repaint();
             }
