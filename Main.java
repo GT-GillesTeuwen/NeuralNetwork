@@ -21,7 +21,6 @@ class Main {
         t.train();
     }
 
-
     public static TraingingData[] createTrainingData(String dataFile, String labelFile) {
         try {
             MnistMatrix[] mnistMatrix = new MnistDataReader().readData(dataFile, labelFile);
