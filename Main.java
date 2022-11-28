@@ -11,7 +11,7 @@ class Main {
 
     public static void main(String[] args) throws IOException {
 
-        int batchSize = 300;
+        int batchSize = 30;
 
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -48,7 +48,7 @@ class Main {
         int[] numNodesInLayers = { 784, 16, 16, 10 };
 
         NeuralNetwork nn = new NeuralNetwork(numNodesInLayers, 1, "sigmoid");
-        // nn.loadValues("NNValues_DigitID_0.8049_0.3.txt");
+        nn.loadValues("values\\NNValues_DigitID_0.9843_1.0_sigmoid_batchSize30.txt");
         nv.setNeuralNetwork(nn);
         double avgErr = 1;
         int counter = 0;
