@@ -209,7 +209,6 @@ public class NeuralNetwork {
                 next = file.nextLine();
                 String[] vals = next.split(",");
                 for (int i = 0; i < vals.length; i++) {
-                    System.out.println((i / weights[k].getCols()) + ":" + (i % weights[k].getCols()));
                     weights[k].setValueAt(i / weights[k].getCols(), i % weights[k].getCols(),
                             Double.parseDouble(vals[i]));
                 }

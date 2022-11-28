@@ -11,7 +11,17 @@ class Main {
 
     public static void main(String[] args) throws IOException {
 
-        int batchSize = 3;
+        int batchSize = 300;
+
+        JFrame frame = new JFrame();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(800, 800);
+        frame.setLocation(200, 200);
+        frame.setVisible(true);
+
+        NNVisualiser nv = new NNVisualiser();
+        frame.add(nv);
+        nv.repaint();
 
         JFrame avgErrorFrame = new JFrame();
         // set size, layout and location for frame.
@@ -37,8 +47,9 @@ class Main {
 
         int[] numNodesInLayers = { 784, 16, 16, 10 };
 
-        NeuralNetwork nn = new NeuralNetwork(numNodesInLayers, 1.2, "sigmoid");
+        NeuralNetwork nn = new NeuralNetwork(numNodesInLayers, 1, "sigmoid");
         // nn.loadValues("NNValues_DigitID_0.8049_0.3.txt");
+        nv.setNeuralNetwork(nn);
         double avgErr = 1;
         int counter = 0;
         while (avgErr > 0) {
@@ -48,10 +59,12 @@ class Main {
             for (int j = 0; j < mnistMatrix.length / batchSize; j++) {
 
                 for (int i = 0; i < batchSize; i++) {
+                    nv.repaint();
                     TraingingData currentTraingingData = createTrainingDataFromMnistMatrix(
                             mnistMatrix[j * batchSize + i]);
                     nn.setInput(currentTraingingData);
                     nn.forward();
+                    nv.repaint();
                     double[] output = nn.getOutput();
                     // for (int i = 0; i < output.length; i++) {
                     // System.out.println(i + " [" + output[i] + "]");
@@ -67,9 +80,9 @@ class Main {
                     errI[i] = sum;
                     nn.backward(err);
                 }
-
+                nv.repaint();
                 nn.adjust();
-
+                nv.repaint();
             }
             shuffleData();
             System.out.println(avgErr / mnistMatrix.length);
@@ -82,7 +95,7 @@ class Main {
             counter++;
             System.out.println(counter);
             if (counter == 25) {
-                nn.writeValues(accuracy, "batchSize" + batchSize);
+                // nn.writeValues(accuracy, "batchSize" + batchSize);
                 counter = 0;
             }
         }
