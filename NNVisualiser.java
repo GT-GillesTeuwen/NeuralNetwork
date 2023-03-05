@@ -57,8 +57,8 @@ public class NNVisualiser extends JPanel {
             }
         }
         plane.setStroke(new BasicStroke(1.0f));
-        int a = 0;
-        for (int i = a; i < nn.numLayers - 1; i++) {
+
+        for (int i = 1; i < nn.numLayers - 1; i++) {
             double x1 = (marg) + (i * (((width - 2 * marg) * 1.0) / (nn.numLayers - 1))) + 15;
             for (int j = 0; j < nn.weights[i].getRows(); j++) {
                 double y2 = (marg) + (j * (((height - 2 * marg) * 1.0) / (nn.weights[i].getRows() - 1))) + 7.5;
@@ -89,7 +89,6 @@ public class NNVisualiser extends JPanel {
                 }
 
             }
-            a = 1;
         }
 
     }

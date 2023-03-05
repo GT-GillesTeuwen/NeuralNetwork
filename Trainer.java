@@ -7,18 +7,17 @@ import javax.swing.JFrame;
 
 public class Trainer {
 
-    
     private TraingingData[] allTrainingData;
     private TraingingData[] validationData;
     private NeuralNetwork nn;
 
-    public Trainer(NeuralNetwork nn,TraingingData[] td,TraingingData[] vd){
-        this.nn=nn;
-        this.allTrainingData=td;
-        this.validationData=vd;
+    public Trainer(NeuralNetwork nn, TraingingData[] td, TraingingData[] vd) {
+        this.nn = nn;
+        this.allTrainingData = td;
+        this.validationData = vd;
     }
 
-    public void train() throws IOException{
+    public void train() throws IOException {
         int batchSize = 30;
 
         JFrame frame = new JFrame();
@@ -62,8 +61,7 @@ public class Trainer {
 
                 for (int i = 0; i < batchSize; i++) {
                     nv.repaint();
-                    TraingingData currentTraingingData = (
-                            allTrainingData[j * batchSize + i]);
+                    TraingingData currentTraingingData = (allTrainingData[j * batchSize + i]);
                     nn.setInput(currentTraingingData);
                     nn.forward();
                     nv.repaint();
@@ -97,13 +95,13 @@ public class Trainer {
             counter++;
             System.out.println(counter);
             if (counter == 25) {
-                // nn.writeValues(accuracy, "batchSize" + batchSize);
+                nn.writeValues(accuracy, "batchSize" + batchSize + " new set");
                 counter = 0;
             }
         }
     }
 
-    public  double[] calculateError(double[] output, double[] expected) {
+    public double[] calculateError(double[] output, double[] expected) {
         double[] error = new double[output.length];
 
         for (int i = 0; i < error.length; i++) {
@@ -118,9 +116,7 @@ public class Trainer {
 
     }
 
-    
-
-    public  void shuffleData() {
+    public void shuffleData() {
         List<TraingingData> l = Arrays.asList(allTrainingData);
         Collections.shuffle(l);
 
@@ -143,11 +139,11 @@ public class Trainer {
 
     }
 
-    public  boolean isCorrect(double[] answer, double[] expected) {
+    public boolean isCorrect(double[] answer, double[] expected) {
         return getLargestIndex(answer) == getLargestIndex(expected);
     }
 
-    public  int getLargestIndex(double[] d) {
+    public int getLargestIndex(double[] d) {
         int ret = 0;
         double max = -1;
         for (int i = 0; i < d.length; i++) {
