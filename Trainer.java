@@ -27,6 +27,7 @@ public class Trainer {
         frame.setVisible(true);
 
         NNVisualiser nv = new NNVisualiser();
+        nv.setNeuralNetwork(nn);
         frame.add(nv);
         nv.repaint();
 

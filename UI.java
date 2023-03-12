@@ -40,9 +40,9 @@ public class UI extends javax.swing.JFrame implements MouseMotionListener, Mouse
 
     public UI() {
 
-        int[] numNodesInLayers = { 784, 16, 16, 10 };
+        int[] numNodesInLayers = { 784, 50, 50, 26 };
         nn = new NeuralNetwork(numNodesInLayers, 0, "sigmoid");
-        nn.loadValues("values\\NNValues_DigitID_0.9843_1.0_sigmoid_batchSize30.txt");
+        nn.loadValues("values\\NNValues_LETTER_ID_0.9259060402684564_1.0_sigmoid_batchSize30 new set.txt");
         MouseListener ml2 = new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent me) {
@@ -467,10 +467,11 @@ public class UI extends javax.swing.JFrame implements MouseMotionListener, Mouse
         System.out.println(nn.getAnswer());
         double[] confidences = nn.getOutput();
         for (int i = 0; i < confidences.length; i++) {
-            System.out.println(i + " [" + confidences[i] + "]");
+            System.out.println((char) (i + 65) + " [" + confidences[i] + "]");
         }
+        System.out.println((char) (nn.getAnswer() + 65));
 
-        btns[nn.getAnswer()].setSelected(true);
+        // btns[nn.getAnswer()].setSelected(true);
 
     }// GEN-LAST:event_jButton3ActionPerformed
 

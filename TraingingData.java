@@ -39,12 +39,12 @@ public class TraingingData {
     }
 
     public double[] getExpected() {
-        double[] expected = new double[10];
+        double[] expected = new double[26];
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 26; i++) {
             expected[i] = 0;
         }
-        expected[Integer.parseInt(answer + "")] = 1;
+        expected[Integer.parseInt(((int) answer) + "") - 65] = 1;
         return expected;
     }
 

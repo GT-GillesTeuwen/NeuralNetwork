@@ -231,7 +231,7 @@ public class NeuralNetwork {
     public void writeValues(double acc, String name) {
         try {
             FileWriter myWriter = new FileWriter(
-                    "values\\NNValues_DigitID_" + acc + "_" + LEARNING_RATE + "_" + activationFunction + "_" + name
+                    "values\\NNValues_LETTER_ID_" + acc + "_" + LEARNING_RATE + "_" + activationFunction + "_" + name
                             + ".txt");
             String out = "Num nodes per layer\n";
             for (int i = 0; i < numNodesInLayers.length; i++) {
