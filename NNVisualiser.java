@@ -41,8 +41,13 @@ public class NNVisualiser extends JPanel {
             double x1 = (marg) + (i * (((width - 2 * marg) * 1.0) / (nn.numLayers - 1)));
             for (int j = 0; j < nn.activations[i].getRows(); j++) {
                 double y1 = (marg) + (j * (((height - 2 * marg) * 1.0) / (nn.activations[i].getRows() - 1)));
-
+                
                 double colour = nn.activations[i].getValueAt(j, 0);
+                if(i==nn.numLayers-1){
+                    
+                    nn.activations[i].softmax();
+                    colour=nn.activations[i].getValueAt(j, 0);
+                }
                 if (colour < 0) {
                     colour *= -1;
                 }
@@ -54,6 +59,9 @@ public class NNVisualiser extends JPanel {
                 plane.setPaint(Color.white);
                 plane.setStroke(new BasicStroke(2.0f));
                 plane.draw(new Ellipse2D.Double(x1, y1, 15, 15));
+                if(i==nn.numLayers-1){
+                    plane.drawString((((char)(j+65))+""), (int)x1+30,(int)(y1+10));
+                }
             }
         }
         plane.setStroke(new BasicStroke(1.0f));
@@ -107,5 +115,7 @@ public class NNVisualiser extends JPanel {
     public void setNeuralNetwork(NeuralNetwork nn) {
         this.nn = nn;
     }
+
+   
 
 }

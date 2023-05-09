@@ -240,4 +240,25 @@ public class Matrix {
             }
         }
     }
+
+    private double numeratorOfsoftmaxFunction(double input) {
+        return Math.exp(input);
+    }
+
+    public void softmax() {
+        double sum = 0;
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                values[i][j] = (values[i][j]);
+                sum += values[i][j];
+            }
+        }
+
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                values[i][j] = values[i][j] / sum;
+            }
+        }
+
+    }
 }

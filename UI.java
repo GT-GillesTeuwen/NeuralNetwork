@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.BorderFactory;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
@@ -37,12 +38,23 @@ public class UI extends javax.swing.JFrame implements MouseMotionListener, Mouse
     JRadioButton[] btns = new JRadioButton[11];
 
     NeuralNetwork nn;
+    NNVisualiser nv;
 
     public UI() {
 
-        int[] numNodesInLayers = { 784, 50, 50, 26 };
+        int[] numNodesInLayers = { 784, 50, 50,26 };
         nn = new NeuralNetwork(numNodesInLayers, 0, "sigmoid");
         nn.loadValues("values\\NNValues_LETTER_ID_0.9259060402684564_1.0_sigmoid_batchSize30 new set.txt");
+        JFrame frame = new JFrame();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(800, 800);
+        frame.setLocation(200, 200);
+        frame.setVisible(true);
+
+        nv = new NNVisualiser();
+        nv.setNeuralNetwork(nn);
+        frame.add(nv);
+        nv.repaint();
         MouseListener ml2 = new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent me) {
@@ -168,7 +180,11 @@ public class UI extends javax.swing.JFrame implements MouseMotionListener, Mouse
         btns[9] = jRadioButton10;
         btns[10] = jRadioButton11;
 
-        createTrainingData();
+        for (JRadioButton button : btns) {
+            button.setVisible(false);
+        }
+
+        //createTrainingData();
     }
 
     /**
@@ -223,6 +239,7 @@ public class UI extends javax.swing.JFrame implements MouseMotionListener, Mouse
 
         buttonGroup1.add(jRadioButton2);
         jRadioButton2.setText("1");
+        
 
         buttonGroup1.add(jRadioButton3);
         jRadioButton3.setText("2");
@@ -464,6 +481,7 @@ public class UI extends javax.swing.JFrame implements MouseMotionListener, Mouse
         System.out.println();
         nn.setInput(input);
         nn.forward();
+        nv.repaint();
         System.out.println(nn.getAnswer());
         double[] confidences = nn.getOutput();
         for (int i = 0; i < confidences.length; i++) {
