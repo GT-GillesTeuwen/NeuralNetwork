@@ -92,7 +92,7 @@ public class Matrix {
     private void relu() {
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
-                values[i][j] = sigmoidFunction(values[i][j]);
+                values[i][j] = reluFunction(values[i][j]);
             }
         }
     }
